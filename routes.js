@@ -8,9 +8,16 @@ const adminController =require('./controller/adminController')
 
 const notificationController =require('./controller/notificationController')
 
+
+const adoptionController = require('./controller/adoptionUserController')
+
+
+const petController = require('./controller/petcontroller')
+
 const jwt =require('./middleware/jwtMiddleware')
 
 const multer =require('./middleware/multerMiddleware')
+const { addPetController } = require('./controller/petcontroller')
 
 const router =new express.Router()
 
@@ -60,6 +67,42 @@ router.post('/post-message',notificationController.messageController)
 //get message
 
 router.get('/get-message',jwt,notificationController.getMessageController)
+
+
+
+
+//adoption
+
+router.post('/adreg',adoptionController.adoptionregisterController)
+
+//login
+router.post('/adlogin',adoptionController.adoptionloginController)
+
+//get user data
+
+router.get('/getauser',jwt,adoptionController.getadoptionuserController)
+
+//edit profile
+router.put('/edit-adoption-profile',jwt,multer.single("img"),adoptionController.editadoptionprofileController)
+
+
+
+
+router.post('/service',jwt,multer.single("petimg"),petController.addPetController)
+
+
+router.get('/get-all-pet',petController.getAllPetsController)
+
+
+router.get('/get-a-pet',petController.getaPetController)
+
+
+router.post('/adoption-Form',)
+
+
+
+
+
 
 
 

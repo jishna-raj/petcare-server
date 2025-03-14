@@ -20,7 +20,7 @@ petServer.use('/uploads',express.static('./uploads'))
 
 //port
 
-const PORT =4000 || process.env.PORT
+const PORT = 4000 || process.env.PORT
 
 //server checking the request received at port
 
