@@ -12,7 +12,7 @@ const adoptionRequestSchema = new mongoose.Schema({
   // Reference to the user submitting the request
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'adoptionusers',
     required: true
   },
   

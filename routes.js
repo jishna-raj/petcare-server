@@ -9,15 +9,24 @@ const adminController =require('./controller/adminController')
 const notificationController =require('./controller/notificationController')
 
 
-const adoptionController = require('./controller/adoptionUserController')
+const adoptionUserController = require('./controller/adoptionUserController')
 
 
 const petController = require('./controller/petcontroller')
 
+
+const testimonialController = require('./controller/testimonialController')
+
+
+const adoptionRequestController = require('./controller/adoptionRequestController')
+
+
+const AdoptionNotificationController = require('./controller/AoptionNotificationController')
+
 const jwt =require('./middleware/jwtMiddleware')
 
 const multer =require('./middleware/multerMiddleware')
-const { addPetController } = require('./controller/petcontroller')
+
 
 const router =new express.Router()
 
@@ -29,6 +38,8 @@ router.post('/login',userController.loginController)
 //get user data
 
 router.get('/getuser',jwt,userController.getuserController)
+
+router.get('/allusers',userController.getallUserController)
 
 //edit profile
 router.put('/edit-profile',jwt,multer.single("img"),userController.editprofileController)
@@ -73,22 +84,27 @@ router.get('/get-message',jwt,notificationController.getMessageController)
 
 //adoption
 
-router.post('/adreg',adoptionController.adoptionregisterController)
+router.post('/adreg',adoptionUserController.adoptionregisterController)
 
 //login
-router.post('/adlogin',adoptionController.adoptionloginController)
+router.post('/adlogin',adoptionUserController.adoptionloginController)
 
 //get user data
 
-router.get('/getauser',jwt,adoptionController.getadoptionuserController)
+router.get('/getauser',jwt,adoptionUserController.getadoptionuserController)
+
+
+router.get('/get-all-adoptionuser',adoptionUserController.getallAdoptionUserController)
 
 //edit profile
-router.put('/edit-adoption-profile',jwt,multer.single("img"),adoptionController.editadoptionprofileController)
+router.put('/edit-adoption-profile',jwt,multer.single("img"),adoptionUserController.editadoptionprofileController)
 
 
 
 
 router.post('/service',jwt,multer.single("petimg"),petController.addPetController)
+
+router.post('/admanagement',jwt,multer.single("petimg"),petController.addAdminPetController)
 
 
 router.get('/get-all-pet',petController.getAllPetsController)
@@ -97,7 +113,36 @@ router.get('/get-all-pet',petController.getAllPetsController)
 router.get('/get-a-pet',petController.getaPetController)
 
 
-router.post('/adoption-Form',)
+router.delete('/delete-pet/:id',petController.deletePetController)
+
+
+router.put('/update-pet/:id',petController.updatepetController)
+
+/* adoption controller */
+
+router.post('/adoption-Form',adoptionRequestController.addAdoptionRequest)
+
+router.get('/adoption-requests',adoptionRequestController.getAllAdoptionRequests)
+
+
+router.put('/adoption-requests/:id',adoptionRequestController.updateRequestController)
+
+
+/* testimonials */
+
+router.get('/get-a-adoptionuser/:id',adoptionUserController.getadoptionuserIdController)
+
+router.post('/add-testimonial',testimonialController.addTestimonialController)
+
+
+
+router.get('/get-testimonials',testimonialController.getTestimonialController)
+
+
+/* add notification */
+
+
+router.post('/add-notification',AdoptionNotificationController.addAdoptionNotification)
 
 
 

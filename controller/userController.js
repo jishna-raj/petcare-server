@@ -54,6 +54,30 @@ exports.loginController =async(req,res)=>{
     }
 }
 
+
+/* get all usser details */
+
+
+exports.getallUserController=async(req,res)=>{
+
+    try {
+        // Get all users from database
+        const user = await users.find({}).select('-password');
+        
+        res.status(200).json({
+            success: true,
+            user,
+            count: users.length
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error fetching users",
+            error: error.message
+        });
+    }
+}
 //get user details
 
 exports.getuserController =async(req,res)=>{

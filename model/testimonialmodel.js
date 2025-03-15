@@ -3,19 +3,18 @@ const mongoose = require('mongoose')
 
 const testimonialSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'adoptionusers', 
+        type: String,
         required: true,
+    },
+    img:{
+        type: String
+       
+        
     },
     review: {
         type: String,
         required: true,
         maxlength: 500, // Limit to 500 characters
-    },
-    image: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'adoptionusers', 
-        required: true,
     },
     postedAt: {
         type: Date,
@@ -23,4 +22,7 @@ const testimonialSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Testimonial', testimonialSchema);
+
+const testimonials = mongoose.model('Testimonials', testimonialSchema)
+
+module.exports = testimonials ;

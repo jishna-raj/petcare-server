@@ -55,8 +55,32 @@ exports.adoptionloginController =async(req,res)=>{
 
 //get user details
 
+
+exports.getallAdoptionUserController=async(req,res)=>{
+
+    try {
+        // Get all users from database
+        const users = await adoptionusers.find({}).select('-password');
+        
+        res.status(200).json({
+            success: true,
+            users,
+            count: users.length
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error fetching users",
+            error: error.message
+        });
+    }
+}
+
 exports.getadoptionuserController =async(req,res)=>{
     const userId =req.payload
+    console.log(userId);
+    
     try {
         const userDetails=await adoptionusers.findOne({_id:userId})
         console.log(userId);
@@ -69,6 +93,9 @@ exports.getadoptionuserController =async(req,res)=>{
 //edit profile
 
 exports.editadoptionprofileController=async(req,res)=>{
+
+    console.log('inside user edit controller');
+    
 
     const userId =req.payload
  console.log('userid',req.file);
@@ -95,6 +122,22 @@ exports.editadoptionprofileController=async(req,res)=>{
 //get booking userDetails
 
 exports.getbookingadoptionuserController =async(req,res)=>{
+    const userId =req.params.id
+    console.log(userId);
+    
+    try {
+        const userDetails=await adoptionusers.findOne({_id:userId})
+        console.log(userId);
+        res.status(200).json(userDetails)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+
+}
+
+
+
+exports.getadoptionuserIdController =async(req,res)=>{
     const userId =req.params.id
     console.log(userId);
     
