@@ -23,6 +23,11 @@ const adoptionRequestController = require('./controller/adoptionRequestControlle
 
 const AdoptionNotificationController = require('./controller/AoptionNotificationController')
 
+
+const groomerController = require('./controller/groomerController')
+
+const groomerTestimonialController = require('./controller/groomerTestimonialController')
+
 const jwt =require('./middleware/jwtMiddleware')
 
 const multer =require('./middleware/multerMiddleware')
@@ -47,9 +52,11 @@ router.put('/edit-profile',jwt,multer.single("img"),userController.editprofileCo
 //booking
 router.post('/booking',jwt,bookingController.bookingDetailsController)
 
-//getUserbooking
+//getallUserbooking
 
-router.get('/getbooking',jwt,bookingController.getuserBookingController)
+router.get('/getbooking/:id',bookingController.getAUserAllbookingController)
+
+
 
 //add employee
 
@@ -62,11 +69,11 @@ router.get('/get-employee',jwt,adminController.getEmployeeController)
 
 router.delete('/remove-employee/:id',adminController.deleteEmployeeController)
 
-//get all booking
+//get all booking in booking model
 
-router.get('/get-allBooking',bookingController.getAllbookingController)
+router.get('/get-allBooking',bookingController.getuserBookingController)
 
-//get bookingUser
+//get that bookingUser details
 
 router.get('/get-bookingUser/:id',userController.getbookinguserController)
 
@@ -77,7 +84,10 @@ router.post('/post-message',notificationController.messageController)
 
 //get message
 
-router.get('/get-message',jwt,notificationController.getMessageController)
+router.get('/get-message/:id',notificationController.getMessageController)
+
+
+router.delete('/delete-message/:id',notificationController.deleteNotificationController)
 
 
 
@@ -130,19 +140,66 @@ router.put('/adoption-requests/:id',adoptionRequestController.updateRequestContr
 
 /* testimonials */
 
-router.get('/get-a-adoptionuser/:id',adoptionUserController.getadoptionuserIdController)
+ router.get('/get-a-adoptionuser/:id',adoptionUserController.getadoptionuserIdController)
 
 router.post('/add-testimonial',testimonialController.addTestimonialController)
 
 
 
-router.get('/get-testimonials',testimonialController.getTestimonialController)
+router.get('/get-testimonials',testimonialController.getTestimonialController) 
 
 
 /* add notification */
 
 
 router.post('/add-notification',AdoptionNotificationController.addAdoptionNotification)
+
+
+
+
+
+
+
+
+
+/* groommers */
+
+
+router.post('/groomer-reg',multer.single("profilePicture"),groomerController.groomerRegisterController)
+
+ 
+router.post('/groomer-log',groomerController.groomerloginController) 
+
+
+router.get('/all-groomer',groomerController.getAllGroomersController)
+
+router.get('/agroomer/:id',groomerController.getAGroomerController)
+
+
+
+router.get('/getserviceworker',groomerController.getGroomerByserviceController)
+
+router.put('/updategroomerStatus/:id',groomerController.groomerStatus)
+
+
+router.get('/getgroomerbooking/:id',groomerController.getgroomerBookingController)
+
+
+router.put('/update-groomer/:id',groomerController.updateGroomerController)
+
+
+router.put('/update-booking-status/:id',bookingController.updatebookingStatusController) 
+
+
+
+/* groomerTestimonial */
+
+router.post('/add-groomertestimonial',groomerTestimonialController.addGroomerTestimonialController)
+
+router.get('/get-all-groomerTestimonial',groomerTestimonialController.getallGroomerTestimonialController)
+
+
+router.get('/get-home-groomerTestimonial',groomerTestimonialController.getHomeTestimonialController)
 
 
 
