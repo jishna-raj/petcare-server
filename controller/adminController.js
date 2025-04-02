@@ -8,11 +8,11 @@ exports.addEmployeeController=async(req,res)=>{
  
     
     const{name , mobile ,license,place,designation}=req.body
-    console.log(req.body);
+    /* console.log(req.body); */
     const profileImg = req.file?req.file.filename:img
     const userId=req.payload
 
-    console.log(profileImg);
+    /* console.log(profileImg); */
 
     try {
       const existingEmpoyee =await employee.findOne({mobile})

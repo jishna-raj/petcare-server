@@ -96,14 +96,14 @@ exports.getuserController =async(req,res)=>{
 exports.editprofileController=async(req,res)=>{
 
     const userId =req.payload
- console.log('userid',req.file);
+/*  console.log('userid',req.file); */
  
     
     const{username , email ,password,place,mobile,img}=req.body
-    console.log(req.body);
+    /* console.log(req.body); */
     const profileImg = req.file?req.file.filename:img
 
-    console.log(profileImg);
+   /*  console.log(profileImg); */
     
     try {
       const existingUser =await users.findByIdAndUpdate({_id:userId},
@@ -132,5 +132,6 @@ exports.getbookinguserController =async(req,res)=>{
     }
 
 }
+
 
 

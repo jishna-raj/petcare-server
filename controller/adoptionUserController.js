@@ -1,4 +1,7 @@
 const adoptionusers =require('../model/adoptionusermodel')
+const pet = require('../model/petModel')
+
+const adoptionRequest = require('../model/adoptionrequestmodel')
 
 const jwt =require('jsonwebtoken')
 
@@ -9,7 +12,7 @@ exports.adoptionregisterController =async(req,res)=>{
 console.log('inside the register controller');
 
 const {username , email ,password}=req.body
-console.log(username , email ,password);
+/* console.log(username , email ,password); */
 
 try {
     const existingUser =await adoptionusers.findOne({email})
@@ -37,7 +40,7 @@ try {
 
 exports.adoptionloginController =async(req,res)=>{
     const{email , password}=req.body
-    console.log(email,password);
+    /* console.log(email,password); */
     
     try {
         const existingUser=await adoptionusers.findOne({email,password})
@@ -79,11 +82,11 @@ exports.getallAdoptionUserController=async(req,res)=>{
 
 exports.getadoptionuserController =async(req,res)=>{
     const userId =req.payload
-    console.log(userId);
+    /* console.log(userId); */
     
     try {
         const userDetails=await adoptionusers.findOne({_id:userId})
-        console.log(userId);
+        /* console.log(userId); */
         res.status(200).json(userDetails)
     } catch (error) {
         res.status(401).json(error)
@@ -123,11 +126,11 @@ exports.editadoptionprofileController=async(req,res)=>{
 
 exports.getbookingadoptionuserController =async(req,res)=>{
     const userId =req.params.id
-    console.log(userId);
+    /* console.log(userId); */
     
     try {
         const userDetails=await adoptionusers.findOne({_id:userId})
-        console.log(userId);
+        /* console.log(userId); */
         res.status(200).json(userDetails)
     } catch (error) {
         res.status(401).json(error)
@@ -139,16 +142,75 @@ exports.getbookingadoptionuserController =async(req,res)=>{
 
 exports.getadoptionuserIdController =async(req,res)=>{
     const userId =req.params.id
-    console.log(userId);
+   /*  console.log(userId); */
     
     try {
         const userDetails=await adoptionusers.findOne({_id:userId})
-        console.log(userId);
+       /*  console.log(userId); */
         res.status(200).json(userDetails)
     } catch (error) {
         res.status(401).json(error)
     }
 
 }
+
+
+exports.deleteAdoptionUserController = async (req, res) => {
+    try {
+        const userId = req.params.id || req.user._id;
+        
+        if (!userId) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'User ID is required'
+            });
+        }
+
+        // Check if user exists
+        const user = await adoptionusers.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'User not found'
+            });
+        }
+
+    
+        // Delete all related data in parallel for better performance
+        const [deletedUser, deletedPets,deletedRequests] = await Promise.all([
+            // 1. Delete the user
+            adoptionusers.findByIdAndDelete(userId),
+            
+            // 2. Delete all pets listed by this user
+            pet.deleteMany({ createdBy: userId }),
+
+
+
+            adoptionRequest.deleteMany({user:userId})
+
+            
+           
+        ]);
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                deletedUser,
+                petsDeleted: deletedPets.deletedCount,
+                Requestsdeleted:deletedRequests.deletedCount
+            },
+            message: 'User and all related data deleted successfully'
+        });
+
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to delete user and related data',
+            error: error.message
+        });
+    }
+};
+
 
 

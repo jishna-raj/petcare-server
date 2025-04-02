@@ -203,6 +203,15 @@ router.get('/get-home-groomerTestimonial',groomerTestimonialController.getHomeTe
 
 
 
+router.delete('/delete-adoptionuser/:id',adoptionUserController.deleteAdoptionUserController)
+
+
+
+router.get('/get-adoptionuserRequest/:id',adoptionRequestController.getUserAdoptionRequestController)
+
+
+
+
 
 
 

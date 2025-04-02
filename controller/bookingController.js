@@ -10,7 +10,7 @@ exports.bookingDetailsController = async (req, res) => {
 
   const userId = req.payload;
 
-  console.log(req.body);
+  /* console.log(req.body); */
 
 
   try {
@@ -29,7 +29,7 @@ exports.bookingDetailsController = async (req, res) => {
 
     const missingFields = requiredFields.filter(path => {
       const value = path.reduce((obj, key) => obj?.[key], req.body);
-      console.log(`Checking field ${path.join('.')}:`, value);
+      /* console.log(`Checking field ${path.join('.')}:`, value); */
       return value === undefined || value === null;
     });
 
@@ -109,8 +109,8 @@ exports.getAUserAllbookingController = async (req, res) => {
   try {
     // Get user ID from request parameters (more RESTful than body for GET requests)
     const { id } = req.params;
-
-    console.log(id);
+/* 
+    console.log(id); */
     
 
     // Find bookings with proper error handling

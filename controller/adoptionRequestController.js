@@ -178,3 +178,66 @@ exports.updateRequestController = async(req,res) =>{
         });
     }
 }
+
+
+
+exports.getUserAdoptionRequestController = async(req,res)=>{
+
+
+    try {
+        const userId = req.params.id || req.user?._id;
+        console.log(req.params);
+        
+        
+        // Validate user ID
+        if (!userId) {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'User ID is required'
+            });
+        }
+
+        // Check if user exists
+        const userExists = await adoptionusers.exists({_id:userId});
+        if (!userExists) {
+            return res.status(404).json({
+                status: 'fail',
+                message: 'User not found'
+            });
+        }
+
+        // Get adoption requests with populated pet details
+        const requests = await AdoptionRequest.find({ user: userId })
+            .populate({
+                path: 'pet',
+                select: 'name breed age status images' // Only essential pet fields
+            })
+            .sort({ createdAt: -1 }); // Newest first
+
+        res.status(200).json({
+            status: 'success',
+            results: requests.length,
+            data: {
+                requests
+            }
+        });
+
+    } catch (error) {
+        console.error('Error fetching adoption requests:', error);
+        
+        // Handle invalid ObjectId format
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Invalid user ID format'
+            });
+        }
+
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to fetch adoption requests',
+            error: error.message
+        });
+    }
+
+}

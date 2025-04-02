@@ -27,7 +27,7 @@ exports.addPetController = async (req, res) => {
 
     const petimg = req.file.filename
 
-    console.log(req);
+   /*  console.log(req); */
 
 
     // Validate required fields
@@ -252,7 +252,7 @@ exports.deletePetController = async (req, res) => {
 
   try {
     const petId = req.params.id;
-    console.log(petId);
+   /*  console.log(petId); */
 
 
 
@@ -314,7 +314,7 @@ exports.addAdminPetController = async (req, res) => {
 
     const petimg = req.file.filename
 
-    console.log(req);
+    /* console.log(req); */
 
 
     // Validate required fields

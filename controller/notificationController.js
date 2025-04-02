@@ -76,7 +76,7 @@ exports.getMessageController =async(req,res)=>{
     const userIds =req.params
 
     const userrId = userIds.id
-    console.log(userIds.id);
+    /* console.log(userIds.id); */
     
     try {
         
@@ -94,7 +94,7 @@ exports.getMessageController =async(req,res)=>{
 exports.deleteNotificationController = async (req, res) => {
     try {
       const { id} = req.params;
-      console.log(id);
+/*       console.log(id); */
       
   
       
